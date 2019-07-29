@@ -9,9 +9,9 @@ import bodyParser from 'koa-bodyparser'
 import session from 'koa-generic-session'
 import Redis from 'koa-redis'
 import json from 'koa-json'
-import dbConfig from './bds/config'
+import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
-import user from './interface/users'
+import users from './interface/users'
 
 const app = new Koa()
 
@@ -29,7 +29,7 @@ app.use(json())
 mongoose.connect(dbConfig.dbs,{
   userNewUrlParser:true
 })
-app.use(oassport.initialize())
+app.use(passport.initialize())
 app.use(passport.session())
 
 async function start() {
@@ -49,7 +49,7 @@ async function start() {
     await nuxt.ready()
   }
   
-  app.use(user.routes()).use(ussers.allowedMethods())
+  app.use(users.routes()).use(users.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200
